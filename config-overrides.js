@@ -1,4 +1,4 @@
-const { override, addBabelPlugins } = require('customize-cra')
+const { override } = require('customize-cra')
 
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
@@ -8,8 +8,5 @@ const addReactRefreshPlugin = config => {
 }
   
 module.exports = override(
-    // addBabelPlugins(
-    //     'react-refresh/babel'
-    // ),
     addReactRefreshPlugin
 )
