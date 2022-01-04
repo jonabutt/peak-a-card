@@ -12,7 +12,7 @@ const App: React.FC = () => {
         }
       }
       
-  })
+  },[firstLoad])
   return (
     <div>
       <h1>Peak a Card 3  s d</h1>
