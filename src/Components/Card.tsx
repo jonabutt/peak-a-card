@@ -5,7 +5,7 @@ interface Props {
     index: number,
     value: number,
     isShowingFront: boolean,
-    handleClickCard: (value: number) => void
+    handleClickCard: (index: number,faceValue: number) => void
 
 }
 
@@ -35,7 +35,7 @@ const CardStyle = styled.div`
 
 export const Card: React.FC<Props> = ({index,value,isShowingFront,handleClickCard}) => {
     return (
-        <CardStyle onClick={()=>handleClickCard(index)}>
+        <CardStyle onClick={()=>handleClickCard(index,value)}>
             {isShowingFront &&
                 <div className="card-face card-front">
                     {value}
