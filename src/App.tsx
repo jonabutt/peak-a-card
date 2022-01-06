@@ -5,7 +5,7 @@ const App: React.FC = () => {
   const [cardList, setCardList] = useState<{value: number,isShowingFront: boolean,index: number,matched: boolean}[]>([])
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [userSelection, setUserSelection] = useState<{index: number,faceValue: number}[]>([])
-  const [status, setStatus] = useState<string>("")
+ // const [status, setStatus] = useState<string>("")
   useEffect(() => {
       if(firstLoad){
         setFirstLoad(false);
@@ -15,8 +15,24 @@ const App: React.FC = () => {
       }
       
   },[firstLoad])
+  const status = () => {
+    // return the status depending on the winning codition
+    const remainingPairs = getRemainingPairs();
+    if(remainingPairs === 0){
+      return 'Player wins!';
+    }
+    else{
+      return `Remaining Pairs: ${remainingPairs}`;
+    }
+  }
+  const getRemainingPairs = () => {
+    // calculating the remaining pairs that needs to be matched
+    const remainingCards = cardList.filter(c=>c.matched===false).length;
+    return remainingCards / 2;
+  }
   const handleClickCard = (index: number,faceValue: number) => {
-
+    // console.log(remainingPairs())
+    // console.log("remainingPairs")
     if(userSelection.length<2)
     {
       // setting visible of the face the card
@@ -40,7 +56,6 @@ const App: React.FC = () => {
         
         // check if card one matches with card two
         if(cardOne.faceValue === cardTwo.faceValue){
-          setStatus("Matched!");
           // setting boolean of the card as matched
           let matchTempCardList = [...cardList];
           matchTempCardList[cardOne.index].matched = true;
@@ -48,7 +63,6 @@ const App: React.FC = () => {
           setCardList(matchTempCardList);
         }
         else{
-          setStatus("Mismatched!");
           // flipping the cards on the back
           let resetTempCardList = [...cardList];
           resetTempCardList[cardOne.index].isShowingFront = false;       
@@ -77,7 +91,7 @@ const App: React.FC = () => {
           )
         }
       </section>
-      <h2 onClick={()=>setStatus("")}>{status}</h2>
+      <h2>{status()}</h2>
     </div>
   );
 }
