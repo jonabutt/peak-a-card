@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
+import _ from 'lodash';
 import { Card } from './Components/Card';
 
 const App: React.FC = () => {
@@ -10,11 +11,12 @@ const App: React.FC = () => {
       if(firstLoad){
         setFirstLoad(false);
         for(let i =0;i<16;i++){
-          setCardList(cardList => [...cardList,{value:10, isShowingFront: false, index:i,matched: false}]);
+          setCardList(cardList => [...cardList,{value:i, isShowingFront: true, index:i,matched: false}]);
         }
       }
       
   },[firstLoad])
+
   const status = () => {
     // return the status depending on the winning codition
     const remainingPairs = getRemainingPairs();
@@ -25,6 +27,11 @@ const App: React.FC = () => {
       return `Remaining Pairs: ${remainingPairs}`;
     }
   }
+
+  const shuffleCards = () => {
+    setCardList(_.shuffle([...cardList]));
+  }
+
   const getRemainingPairs = () => {
     // calculating the remaining pairs that needs to be matched
     const remainingCards = cardList.filter(c=>c.matched===false).length;
@@ -92,6 +99,7 @@ const App: React.FC = () => {
         }
       </section>
       <h2>{status()}</h2>
+      <button onClick={shuffleCards}>Shuffle</button>
     </div>
   );
 }
