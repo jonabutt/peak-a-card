@@ -10,16 +10,30 @@ const App: React.FC = () => {
   useEffect(() => {
       if(firstLoad){
         setFirstLoad(false);
-        for(let i =0;i<16;i++){
-          setCardList(cardList => [...cardList,{value:i, isShowingFront: true, index:i,matched: false}]);
-        }
+
+        // card items
+        const cardItems: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+        let tempCardList: {value: number,isShowingFront: boolean,index: number,matched: boolean}[] = [];
+        // loop all card items
+        cardItems.forEach((cardItem,index) => {
+          // add two cards with the same value
+          const cardOne = {value: cardItem,isShowingFront: false, index: index+index,matched: false};
+          const cardTwo = {value: cardItem,isShowingFront: false, index: index+index+1,matched: false};
+          tempCardList = [
+            ...tempCardList,
+            cardOne,
+            cardTwo
+          ];
+        });
+        // reset the game so the card list will be shuffled
+        restartGame(tempCardList);
       }
       
   },[firstLoad])
 
   const status = () => {
     // return the status depending on the winning codition
-    const remainingPairs = getRemainingPairs();
+    const remainingPairs: number = getRemainingPairs();
     if(remainingPairs === 0){
       return 'Player wins!';
     }
@@ -28,9 +42,10 @@ const App: React.FC = () => {
     }
   }
 
-  const restartGame = () => {
+  const restartGame = (cardListParam?: {value: number,isShowingFront: boolean,index: number,matched: boolean}[]) => {
    
-    let tempCardList = [...cardList];
+    let tempCardList = cardListParam || [...cardList];
+ 
     tempCardList = _.shuffle(tempCardList).map((card,index)=>{
       return {
         ...card,
@@ -44,18 +59,13 @@ const App: React.FC = () => {
     
   }
 
-  const shuffleCards = () => {
-    setCardList(_.shuffle([...cardList]));
-  }
-
   const getRemainingPairs = () => {
     // calculating the remaining pairs that needs to be matched
     const remainingCards = cardList.filter(c=>c.matched===false).length;
     return remainingCards / 2;
   }
+
   const handleClickCard = (index: number,faceValue: number) => {
-    // console.log(remainingPairs())
-    // console.log("remainingPairs")
     if(userSelection.length<2)
     {
       // setting visible of the face the card
@@ -115,7 +125,7 @@ const App: React.FC = () => {
         }
       </section>
       <h2>{status()}</h2>
-      <button onClick={restartGame}>Restart</button>
+      <button onClick={()=>restartGame()}>Restart</button>
     </div>
   );
 }
