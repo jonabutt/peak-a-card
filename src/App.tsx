@@ -28,6 +28,22 @@ const App: React.FC = () => {
     }
   }
 
+  const restartGame = () => {
+   
+    let tempCardList = [...cardList];
+    tempCardList = _.shuffle(tempCardList).map((card,index)=>{
+      return {
+        ...card,
+        matched: false,
+        isShowingFront: false,
+        index: index
+      }
+    })
+    setCardList(tempCardList);
+
+    
+  }
+
   const shuffleCards = () => {
     setCardList(_.shuffle([...cardList]));
   }
@@ -99,7 +115,7 @@ const App: React.FC = () => {
         }
       </section>
       <h2>{status()}</h2>
-      <button onClick={shuffleCards}>Shuffle</button>
+      <button onClick={restartGame}>Restart</button>
     </div>
   );
 }
