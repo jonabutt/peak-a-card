@@ -96,11 +96,15 @@ const App: React.FC = () => {
           setCardList(matchTempCardList);
         }
         else{
-          // flipping the cards on the back
-          let resetTempCardList = [...cardList];
-          resetTempCardList[cardOne.index].isShowingFront = false;       
-          resetTempCardList[cardTwo.index].isShowingFront = false;
-          setCardList(resetTempCardList);
+          // wait 1 second to flip card back over
+          setTimeout(()=>{
+            // flipping the cards on the back
+            let resetTempCardList = [...cardList];
+            resetTempCardList[cardOne.index].isShowingFront = false;       
+            resetTempCardList[cardTwo.index].isShowingFront = false;
+            setCardList(resetTempCardList);
+          },1000)
+        
         }
         // reset the cards user selection
         setUserSelection([]);
