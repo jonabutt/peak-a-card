@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 interface Props {
     index: number,
-    value: number,
+    value: string,
     isShowingFront: boolean,
-    handleClickCard: (index: number,faceValue: number) => void
-
+    handleClickCard: (index: number,faceValue: string) => void,
+    matched: boolean
 }
 
 const CardStyle = styled.div`
@@ -14,12 +14,16 @@ const CardStyle = styled.div`
     .card-face{
         width: 100%;
         height: 100%;
-        border-radius: 4px;
+        border-radius: 8px;
         box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.57);
         cursor: pointer;
-      
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         &.card-front{
-            background: red;
+            background: rgb(22,157,123);
+            background: linear-gradient(321deg, rgba(22,157,123,1) 25%, rgba(54,185,226,1) 75%);
         }
         &.card-back{
             background: rgb(83, 19, 213);
@@ -30,15 +34,21 @@ const CardStyle = styled.div`
             );
             
         }
+        .icon-checkmark{
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+        }
     }
 `
 
-export const Card: React.FC<Props> = ({index,value,isShowingFront,handleClickCard}) => {
+export const Card: React.FC<Props> = ({index,value,isShowingFront,matched,handleClickCard}) => {
     return (
         <CardStyle onClick={()=>handleClickCard(index,value)}>
             {isShowingFront &&
                 <div className="card-face card-front">
-                    {value}
+                    <img src={`/images/${value}.png`} alt="checkmark" />
+                    {matched && <img src="/images/checkmark.svg" alt="checkmark" className='icon-checkmark'/>}
                 </div>
             }
             {!isShowingFront &&

@@ -2,23 +2,35 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Card } from './Components/Card';
 
+interface CardObject {
+  value: string;
+  isShowingFront: boolean;
+  index: number;
+  matched: boolean;
+}
+
+interface UserSelection {
+  index: number;
+  faceValue: string;
+}
+
 const App: React.FC = () => {
-  const [cardList, setCardList] = useState<{value: number,isShowingFront: boolean,index: number,matched: boolean}[]>([])
+  const [cardList, setCardList] = useState<CardObject[]>([])
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
-  const [userSelection, setUserSelection] = useState<{index: number,faceValue: number}[]>([])
+  const [userSelection, setUserSelection] = useState<UserSelection[]>([])
  // const [status, setStatus] = useState<string>("")
   useEffect(() => {
       if(firstLoad){
         setFirstLoad(false);
 
         // card items
-        const cardItems: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
-        let tempCardList: {value: number,isShowingFront: boolean,index: number,matched: boolean}[] = [];
+        const cardItems: string[] = ["snowman", "deer", "bauble", "present", "star", "tree", "wreath", "festoon"];
+        let tempCardList: CardObject[] = [];
         // loop all card items
         cardItems.forEach((cardItem,index) => {
           // add two cards with the same value
-          const cardOne = {value: cardItem,isShowingFront: false, index: index+index,matched: false};
-          const cardTwo = {value: cardItem,isShowingFront: false, index: index+index+1,matched: false};
+          const cardOne: CardObject = {value: cardItem,isShowingFront: false, index: index+index,matched: false};
+          const cardTwo: CardObject = {value: cardItem,isShowingFront: false, index: index+index+1,matched: false};
           tempCardList = [
             ...tempCardList,
             cardOne,
@@ -42,7 +54,7 @@ const App: React.FC = () => {
     }
   }
 
-  const restartGame = (cardListParam?: {value: number,isShowingFront: boolean,index: number,matched: boolean}[]) => {
+  const restartGame = (cardListParam?: CardObject[]) => {
    
     let tempCardList = cardListParam || [...cardList];
  
@@ -65,7 +77,7 @@ const App: React.FC = () => {
     return remainingCards / 2;
   }
 
-  const handleClickCard = (index: number,faceValue: number) => {
+  const handleClickCard = (index: number,faceValue: string) => {
     if(userSelection.length<2)
     {
       // setting visible of the face the card
@@ -112,16 +124,16 @@ const App: React.FC = () => {
     }    
   }
   return (
-    <div>
-      <h1>Peak a Card 3</h1>
+    <div id="app">
+      <h1>Peak a Card</h1>
       <section className="game-board">
-       
         {
           cardList.map(c=>
               <Card
                 key={c.index} 
                 value={c.value}
                 index={c.index}
+                matched={c.matched}
                 isShowingFront={c.isShowingFront}
                 handleClickCard={handleClickCard}
               />
@@ -129,7 +141,10 @@ const App: React.FC = () => {
         }
       </section>
       <h2>{status()}</h2>
-      <button onClick={()=>restartGame()}>Restart</button>
+      <button onClick={()=>restartGame()} className='button'>
+        <img src='/images/restart.svg' alt='restart-icon'/>
+        Restart
+      </button>
     </div>
   );
 }
