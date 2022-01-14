@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import _ from 'lodash';
 import { Card } from './Components/Card';
+import { launchConfetti } from './utilities/confetti';
 
 interface CardObject {
   value: string;
@@ -47,6 +48,9 @@ const App: React.FC = () => {
     // return the status depending on the winning codition
     const remainingPairs: number = getRemainingPairs();
     if(remainingPairs === 0){
+      if(!firstLoad){
+        launchConfetti();
+      }
       return 'Player wins!';
     }
     else{

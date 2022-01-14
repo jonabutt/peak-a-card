@@ -42,6 +42,7 @@ h2 {
   grid-column-gap: 20px;
   grid-row-gap: 20px;
   justify-content: center;
+  transition: transform 0.8s ease-in;
 }
 
 .button {
