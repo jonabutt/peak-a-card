@@ -129,7 +129,11 @@ const App: React.FC = () => {
   }
   return (
     <div id="app">
-      <h1>Peak a Card</h1>
+      <h1>Peek-a-Card</h1>
+      <section className="description">
+        <p>Welcome to Peek-a-Card!</p>
+        <p>A card matching game made by React.js!</p>
+      </section>
       <section className="game-board">
         {
           cardList.map(c=>
