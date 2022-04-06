@@ -55,4 +55,4 @@ npm start
 
 ## Author
 
-* **Jonathan Buttigieg** - [Linkedin](www.linkedin.com/in/jonbuttigieg/)
+* **Jonathan Buttigieg** - [Linkedin](https://www.linkedin.com/in/jonbuttigieg/)
