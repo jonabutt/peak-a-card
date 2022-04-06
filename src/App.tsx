@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useCallback, useEffect, useState } from 'react'; 
 import _ from 'lodash';
 import { Card } from './Components/Card';
 import { launchConfetti } from './utilities/confetti';
@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [cardList, setCardList] = useState<CardObject[]>([])
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [userSelection, setUserSelection] = useState<UserSelection[]>([])
-  const restartGame = (cardListParam?: CardObject[]) => {
+  const restartGame = useCallback((cardListParam?: CardObject[]) => {
    
     let tempCardList = cardListParam || [...cardList];
  
@@ -31,11 +31,9 @@ const App: React.FC = () => {
         index: index
       }
     })
-    setCardList(tempCardList);
+    setCardList(tempCardList);    
+  },[cardList])
 
-    
-  }
- // const [status, setStatus] = useState<string>("")
   useEffect(() => {
       if(firstLoad){
         setFirstLoad(false);
@@ -58,7 +56,7 @@ const App: React.FC = () => {
         restartGame(tempCardList);
       }
       
-  },[firstLoad])
+  },[firstLoad,restartGame])
 
   const status = () => {
     // return the status depending on the winning codition
