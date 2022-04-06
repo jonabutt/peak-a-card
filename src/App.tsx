@@ -19,6 +19,22 @@ const App: React.FC = () => {
   const [cardList, setCardList] = useState<CardObject[]>([])
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [userSelection, setUserSelection] = useState<UserSelection[]>([])
+  const restartGame = (cardListParam?: CardObject[]) => {
+   
+    let tempCardList = cardListParam || [...cardList];
+ 
+    tempCardList = _.shuffle(tempCardList).map((card,index)=>{
+      return {
+        ...card,
+        matched: false,
+        isShowingFront: false,
+        index: index
+      }
+    })
+    setCardList(tempCardList);
+
+    
+  }
  // const [status, setStatus] = useState<string>("")
   useEffect(() => {
       if(firstLoad){
@@ -58,22 +74,7 @@ const App: React.FC = () => {
     }
   }
 
-  const restartGame = (cardListParam?: CardObject[]) => {
-   
-    let tempCardList = cardListParam || [...cardList];
- 
-    tempCardList = _.shuffle(tempCardList).map((card,index)=>{
-      return {
-        ...card,
-        matched: false,
-        isShowingFront: false,
-        index: index
-      }
-    })
-    setCardList(tempCardList);
-
-    
-  }
+  
 
   const getRemainingPairs = () => {
     // calculating the remaining pairs that needs to be matched
